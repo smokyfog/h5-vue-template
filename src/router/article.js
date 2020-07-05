@@ -7,7 +7,7 @@ export default [
       auth: true,
       title: '文章',
       keepAlive: true,
-      layout: 'login'
+      layout: 'default'
     }
   }
 ]

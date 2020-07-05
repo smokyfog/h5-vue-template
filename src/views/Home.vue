@@ -23,7 +23,7 @@
         <svg-icon icon-class="404" />前往404页面
       </router-link>
     </div>
-    <img :src="img">
+    <img :src="img" style="width: 100%">
     <footer-tabbar />
   </div>
 </template>
@@ -93,6 +93,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.name {
+  width: 100px;
+  height: 100Px;
+  background-color: #aaa;
+}
 .container {
   height: auto;
   width: 100%;
@@ -100,10 +105,10 @@ export default {
 }
 .banner {
   width: 100%;
-  height: auto;
+  height: 300px;
   img {
     width: 100%;
-    height: auto;
+    height: 300px;
   }
 }
 .now-value {

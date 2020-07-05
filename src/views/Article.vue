@@ -68,6 +68,7 @@ export default {
         page: this.page
       }
       const result = await fetchList(data)
+      console.log(result)
       this.total = result.data.total
       const newList = result.data.items.map(article => {
         article.displayTimeFormart = dayjs(article.display_time).format(

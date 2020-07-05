@@ -40,8 +40,6 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-console.log('------------curr process.env.NODE_ENV', process.env.NODE_ENV)
-
 module.exports = {
   publicPath: IS_PRODUCTION ? cdnDomian : './',
   outputDir: 'dist',
@@ -50,6 +48,7 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     port: port,
+    host: '0.0.0.0',
     open: true,
     overlay: {
       warnings: false,
