@@ -1,9 +1,9 @@
 const path = require('path')
-const glob = require('glob')
+// const glob = require('glob')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
 const HappyPack = require('happypack')
-const PurgecssPlugin = require('purgecss-webpack-plugin')
+// const PurgecssPlugin = require('purgecss-webpack-plugin')
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const port = process.env.port || process.env.npm_config_port || 8888
@@ -29,16 +29,18 @@ const externals = {
   'js-cookie': 'Cookies'
 }
 
-const PATHS = {
-  src: path.join(__dirname, 'src')
-}
+// const PATHS = {
+//   src: path.join(__dirname, 'src')
+// }
 
 // 记录打包速度
 const smp = new SpeedMeasurePlugin()
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
+
+console.log('------------curr process.env.NODE_ENV', process.env.NODE_ENV)
 
 module.exports = {
   publicPath: IS_PRODUCTION ? cdnDomian : './',
@@ -62,6 +64,11 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
+      },
+      '/api': {
+        target: 'http://ai.xlab.alibaba.net',
+        secure: false,
+        changeOrigin: true
       }
     },
     after: require('./mock/mock-server.js')
@@ -82,7 +89,7 @@ module.exports = {
       }
     }
   }),
-  chainWebpack (config) {
+  chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test
 
@@ -205,7 +212,6 @@ module.exports = {
       //     paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true })
       //   })
       // )
-      
       config.optimization.minimizer([
         new UglifyjsWebpackPlugin({
           // 生产环境推荐关闭 sourcemap 防止源码泄漏

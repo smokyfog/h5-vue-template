@@ -9,23 +9,17 @@ import '@/icons' // icon
 import '@/style/common.scss'
 import { Lazyload } from 'vant'
 import defaultSettings from '@/settings'
+import layout from './layout/index'
 
-/**
- * If you don't want to use mock-server
- * you want to use MockJs for mock api
- * you can execute: mockXHR()
- *
- * Currently MockJs will be used in the production environment,
- * please remove it before going online! ! !
- */
 import { mockXHR } from '../mock'
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'development') {
   mockXHR()
 }
 
 // options 为可选参数，无则不传
 Vue.use(Lazyload)
+Vue.use(layout)
 
 Vue.component('svg-icon', SvgIcon)
 

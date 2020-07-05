@@ -2,7 +2,6 @@ import { login, getInfo } from 'api/user'
 import { Toast } from 'vant'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
-// import router from '@/router'
 
 const LOGIN = 'LOGIN'// 获取用户信息
 const SetUserData = 'SetUserData'// 获取用户信息
@@ -17,17 +16,17 @@ export default {
   },
   mutations: {
 
-    [LOGIN] (state, data) {
-      let userToken = data.data
+    [LOGIN](state, data) {
+      const userToken = data.data
       state.token = userToken
       setToken(userToken)
     },
 
-    [SetUserData] (state, userData = {}) {
+    [SetUserData](state, userData = {}) {
       state.user = userData
       localStorage.setItem(USER_DATA, JSON.stringify(userData))
     },
-    [LOGOUT] (state) {
+    [LOGOUT](state) {
       state.user = null
       state.token = null
       removeToken()
@@ -37,9 +36,9 @@ export default {
 
   },
   actions: {
-    async login (state, data) {
+    async login(state, data) {
       try {
-        let res = await login({
+        const res = await login({
           phoneNumber: data.phoneNumber,
           password: data.password
         })
@@ -56,10 +55,11 @@ export default {
           })
         }, 1500)
       } catch (error) {
+        console.log(error)
       }
     },
     // get user info
-    getInfo ({ commit, state }) {
+    getInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
           const { data } = response
@@ -77,10 +77,10 @@ export default {
     }
   },
   getters: {
-    token (state) {
+    token(state) {
       return state.token
     },
-    user (state) {
+    user(state) {
       return state.user
     }
   }

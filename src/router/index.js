@@ -28,7 +28,6 @@ let routes = [
 
 const routerContext = require.context('./', true, /\.js$/)
 routerContext.keys().forEach(route => {
-  // 如果是根目录的 index.js 、不处理
   if (route.startsWith('./index')) {
     return
   }
@@ -87,7 +86,7 @@ myRouter.beforeEach((to, from, next) => {
   next()
 })
 
-export function resetRouter () {
+export function resetRouter() {
   myRouter.replace('/login')
 }
 

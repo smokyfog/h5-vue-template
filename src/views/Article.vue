@@ -1,30 +1,29 @@
 <template>
   <div class="container">
     <div class="list-wrap">
-      <vo-pages :data="list"
-                @pullingUp="pullingUp"
-                @pullingDown="pullingDown"
-                :loadedAll="loadedAll">
+      <vo-pages
+        :data="list"
+        :loaded-all="loadedAll"
+        @pullingUp="pullingUp"
+        @pullingDown="pullingDown"
+      >
         <ul class="article-list">
-          <li class="article"
-              v-for="article in list"
-              :key="article.id">
+          <li v-for="article in list" :key="article.id" class="article">
             <div class="left">
-              <img v-lazy="article.imageUri"
-                   alt="thumb" />
+              <img v-lazy="article.imageUri" alt="thumb">
             </div>
             <div class="right">
               <p>{{ article.title }}</p>
               <p class="more-info">
                 <span class="author">作者：{{ article.author }}</span>
-                <span class="time">发布时间：{{article.displayTimeFormart}}</span>
+                <span class="time">发布时间：{{ article.displayTimeFormart }}</span>
               </p>
             </div>
           </li>
         </ul>
       </vo-pages>
     </div>
-    <footer-tabbar/>
+    <footer-tabbar />
   </div>
 </template>
 <script>
@@ -36,7 +35,13 @@ import VoPages from 'vo-pages'
 import 'vo-pages/lib/vo-pages.css'
 export default {
   name: 'Article',
-  data () {
+  components: {
+    [Tabbar.name]: Tabbar,
+    [TabbarItem.name]: TabbarItem,
+    VoPages,
+    FooterTabbar
+  },
+  data() {
     return {
       active: 1,
       list: [],
@@ -45,33 +50,29 @@ export default {
       loadedAll: false
     }
   },
-  mounted () {
+  mounted() {
     this.getList()
   },
-  components: {
-    [Tabbar.name]: Tabbar,
-    [TabbarItem.name]: TabbarItem,
-    VoPages,
-    FooterTabbar
-  },
   methods: {
-    pullingDown () {
+    pullingDown() {
       this.beforePullDown = false
       this.page = 1
       this.getList(false)
     },
-    pullingUp () {
+    pullingUp() {
       this.page += 1
       this.getList()
     },
-    async getList (loadMore = true) {
+    async getList(loadMore = true) {
       const data = {
         page: this.page
       }
       const result = await fetchList(data)
       this.total = result.data.total
       const newList = result.data.items.map(article => {
-        article.displayTimeFormart = dayjs(article.display_time).format('YYYY-MM-DD')
+        article.displayTimeFormart = dayjs(article.display_time).format(
+          'YYYY-MM-DD'
+        )
         return article
       })
       if (loadMore) {
@@ -88,20 +89,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-p{
+p {
   margin-block-start: 0;
   margin-block-end: 0;
 }
-.container{
+.container {
   height: 100%;
   width: 100%;
   background: #f5f5f5;
-  .list-wrap{
+  .list-wrap {
     height: calc(100% - 50px);
     overflow-y: hidden;
   }
 }
-
 .article-list {
   width: 100%;
   height: auto;
@@ -115,7 +115,7 @@ p{
     margin-bottom: 20px;
     padding: 10px 15px;
     box-sizing: border-box;
-    background: #FFF;
+    background: #fff;
     border-radius: 5px;
     box-shadow: 0 0 6px #e3e3e3;
     .left {
@@ -145,7 +145,7 @@ p{
         white-space: nowrap;
         font-size: 16px;
       }
-      .more-info{
+      .more-info {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -155,5 +155,4 @@ p{
     }
   }
 }
-
 </style>

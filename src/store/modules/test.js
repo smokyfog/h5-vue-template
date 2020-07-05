@@ -15,7 +15,7 @@ const actions = {
   }
 }
 const mutations = {
-  onePlus (state, val = 1) {
+  onePlus(state, val = 1) {
     state.number = state.number + val
   }
 }

@@ -1,23 +1,33 @@
 <template>
   <div id="app">
     <transition :name="transitionName">
-      <keep-alive v-if="$route.meta.keepAlive">
-        <router-view class="router"></router-view>
-      </keep-alive>
-      <router-view class="router" v-else></router-view>
+      <component :is="layout">
+        <keep-alive v-if="$route.meta.keepAlive">
+          <router-view class="router" />
+        </keep-alive>
+        <router-view v-else class="router" />
+      </component>
     </transition>
   </div>
 </template>
 <script>
 import defaultSetting from './settings'
 export default {
-  name: 'app',
+  name: 'App',
+  data() {
+    return {
+      default_layout: 'default'
+    }
+  },
   computed: {
-    transitionName () {
+    transitionName() {
       if (defaultSetting.needPageTrans) {
         return this.$store.state.direction
       }
       return ''
+    },
+    layout() {
+      return (this.$route.meta.layout || this.default_layout) + '-layout'
     }
   }
 }

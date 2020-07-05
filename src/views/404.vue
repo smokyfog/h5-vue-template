@@ -6,6 +6,6 @@
 </template>
 <script>
 export default {
-  name: 'page404'
+  name: 'Page404'
 }
 </script>

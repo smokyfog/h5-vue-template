@@ -6,7 +6,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 const whiteList = ['/login', '/register'] // 白名单列表
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   // 设置页面标题
   document.title = getPageTitle(to.meta.title)
 
@@ -24,7 +24,6 @@ router.beforeEach(async (to, from, next) => {
         next()
       } else {
         try {
-          // get user info
           await store.dispatch('user/getInfo')
           next()
         } catch (error) {
@@ -36,12 +35,9 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    /* has no token */
     if (whiteList.indexOf(to.path) !== -1) {
-      // 白名单中，无需验证
       next()
     } else {
-      // other pages that do not have permission to access are redirected to the login page.
       next(`/login?redirect=${to.path}`)
     }
   }

@@ -22,14 +22,14 @@ const createLoadingPlugin = ({
         }
       },
       mutations: {
-        SHOW (state, { payload }) {
+        SHOW(state, { payload }) {
           state.global = true
           state.effects = {
             ...state.effects,
             [payload]: true
           }
         },
-        HIDE (state, { payload }) {
+        HIDE(state, { payload }) {
           state.global = false
           state.effects = {
             ...state.effects,
@@ -56,7 +56,7 @@ const createLoadingPlugin = ({
   }
 }
 
-function shouldEffect ({ type }, includes, excludes) {
+function shouldEffect({ type }, includes, excludes) {
   if (includes.length === 0 && excludes.length === 0) {
     return true
   }

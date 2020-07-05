@@ -6,7 +6,8 @@ export default [
     meta: {
       auth: true,
       title: '文章',
-      keepAlive: true
+      keepAlive: true,
+      layout: 'login'
     }
   }
 ]
