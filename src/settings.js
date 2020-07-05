@@ -1,7 +1,5 @@
 module.exports = {
-
   title: 'H5Vue',
-
   /**
    * @type {boolean} true | false
    * @description Whether fix the header
@@ -9,7 +7,6 @@ module.exports = {
   fixedHeader: false,
   vconsole: true,
   needPageTrans: true,
-
   /**
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar

@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Toast } from 'vant'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import router from '../router'
 
 // create an axios instance
 const service = axios.create({
@@ -24,23 +25,61 @@ service.interceptors.request.use(
   }
 )
 
+const toLogin = () => {
+  router.replace({
+    path: '/login',
+    query: {
+      redirect: router.currentRoute.fullPath
+    }
+  })
+}
+
+const errorHandle = (status, other) => {
+  // 状态码判断
+  switch (status) {
+    // 401: 未登录状态，跳转登录页
+    case 401:
+      toLogin()
+      break
+    // 403 token过期
+    case 403:
+      tipLogin('登录过期，请重新登录')
+      break
+    // 404请求不存在
+    case 404:
+      tip('请求的资源不存在')
+      break
+    default:
+      console.log(other)
+  }
+}
+
+const tip = msg => {
+  Toast({
+    message: msg,
+    duration: 1000,
+    forbidClick: true
+  })
+}
+
+const tipLogin = (msg) => {
+  Toast.confirm(msg, 'Confirm logout', {
+    confirmButtonText: 'Re-Login',
+    cancelButtonText: 'Cancel',
+    type: 'warning'
+  }).then(() => {
+    store.dispatch('user/resetToken').then(() => {
+      location.reload()
+    })
+  })
+}
+
 // response interceptor
 service.interceptors.response.use(
   response => {
     const res = response.data
-
     if (res.code !== 200) {
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        Toast.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
-        })
-      }
+      errorHandle(response.status, response.data.message)
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
